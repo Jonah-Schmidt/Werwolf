@@ -9,7 +9,11 @@ module.exports = {
     /**
      * @param { Interaction } interaction 
     */
-    async execute(interaction) {   
+    async execute(interaction) {
+        if(mediaWriter.get('JSON', 'game', 'running')) {
+            interaction.reply({content: 'Das Spiel läuft bereits!', ephemeral: true});
+            return;
+        };
         const members = mediaWriter.get('Array', 'game', 'members');
         if(members.toString().includes(interaction.user.id)) {
             interaction.reply({content: 'Du bist bereits dabei!', ephemeral: true});

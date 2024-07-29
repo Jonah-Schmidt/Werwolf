@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Interaction, ButtonBuilder, ButtonStyle } = require("discord.js");
 const mediaWriter = require('../mediaWriter');
-const game = require('../modules/game');
+const game = require('../modules/start');
 
 module.exports = {
     name: 'start',
@@ -11,8 +11,8 @@ module.exports = {
     */
     async execute(interaction) {   
         if(mediaWriter.get('JSON', 'game', 'owner') == interaction.user.id) {
-            interaction.reply('Das Spiel wurde gestartet!');
             game.start(interaction);
+            interaction.reply('Das Spiel wurde gestartet!');
         } else {
             interaction.reply('Du hast das spiel nicht erstellt!');
         };

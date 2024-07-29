@@ -18,7 +18,9 @@ module.exports = {
             interaction.reply({embeds: [embed]});
 
             mediaWriter.set('JSON', 'game', 'owner', false);
-            mediaWriter.set('JSON', 'game', 'active', false);
+            mediaWriter.set('JSON', 'game', 'created', false);
+            mediaWriter.set('JSON', 'game', 'running', false);
+
             const members = mediaWriter.get('Array', 'game', 'members');
             members.forEach(member => {
                 mediaWriter.remove('Array', 'game', 'members', member);

@@ -81,13 +81,5 @@ module.exports = {
             console.log(error);
             interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');
         };
-    },
-    async start(interaction) {
-        try {
-            console.log('Start!');
-        } catch(error) {
-            console.log(error);
-            interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');
-        };
-    } 
+    }
 };
