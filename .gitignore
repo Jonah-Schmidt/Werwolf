@@ -6,4 +6,3 @@ node_modules/
 
 # Ignoring environment variables file
 .env
-.env
