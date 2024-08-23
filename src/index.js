@@ -4,7 +4,8 @@ const client = new Client({intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildPresences
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildVoiceStates
 ], partials: [
     Partials.Channel, 
     Partials.GuildMember, 
@@ -12,15 +13,16 @@ const client = new Client({intents: [
     Partials.Reaction, 
     Partials.User
 ]});
+const { createAudioPlayer } = require('@discordjs/voice');
+const fs = require('fs');
+const player = createAudioPlayer();
 const commands = new Collection(); // HashMap (key, value)
 const buttons = new Collection();
-module.exports = { commands, buttons, client };
-const fs = require('fs');
+module.exports = { commands, buttons, client, player };
 const commandFieles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 const buttonFiles = fs.readdirSync('./src/buttons').filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));
 require('./deployCommands.js');
-
 commandFieles.forEach(commandFile => {
     const command = require(`./commands/${commandFile}`);
     console.log(`Registered Command : ${command.data.name}`);

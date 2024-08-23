@@ -12,8 +12,12 @@
   "dependencies": {
     "@discordjs/builders": "^1.8.2",
     "@discordjs/rest": "^2.3.0",
+    "@discordjs/voice": "^0.17.0",
     "discord-api-types": "^0.37.93",
+    "discord-player": "^6.7.1",
     "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.3"
   }
 }
