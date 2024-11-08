@@ -117,10 +117,12 @@ module.exports = {
             });
             */
 
+            /*
             const player = createAudioPlayer();
             const resource = createAudioResource('../audio/test.mp3');
             player.play(resource);
             connection.subscribe(player);
+            */
 
         } catch(error) {
             console.log(error);
