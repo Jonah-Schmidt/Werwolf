@@ -1,4 +1,4 @@
-1. Install NodeJS
+1. Install NodeJS and ffmpeg
 
 2. Fill the Config '.env'
 
