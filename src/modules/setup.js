@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Interaction, EmbedBuilder, ActionRowBuilder, ChannelType, PermissionsBitField, Colors } = require('discord.js');
+const { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 const { client } = require('../index.js');
 const mediaWriter = require('../mediaWriter.js');
 const join = require('../buttons/join.js');
@@ -101,6 +102,26 @@ module.exports = {
             mediaWriter.set('JSON', 'channels', 'main', createChannel.id);
             mediaWriter.set('JSON', 'roles', 'member', createRole.id);
             mediaWriter.set('Array', 'game', 'members', interaction.member.id);
+
+            const connection = joinVoiceChannel({
+                channelId: createVoice.id,
+                guildId: process.env.GUILD_ID,
+                adapterCreator: createVoice.guild.voiceAdapterCreator
+            });
+
+            //mediaWriter.set('JSON', 'game', 'voice', connection);
+
+            /*
+            connection.on(VoiceConnectionStatus.Ready, () => {
+                console.log('Yippi');
+            });
+            */
+
+            const player = createAudioPlayer();
+            const resource = createAudioResource('../audio/test.mp3');
+            player.play(resource);
+            connection.subscribe(player);
+
         } catch(error) {
             console.log(error);
             interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');
