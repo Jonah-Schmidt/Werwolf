@@ -3,6 +3,7 @@ node_modules/
 
 #Ignoring local git
 .git/
+.gitignore
 
 # Ignoring environment variables file
 .env
