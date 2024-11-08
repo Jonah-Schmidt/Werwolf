@@ -62,6 +62,28 @@ module.exports = {
                 ]
             });
 
+            const createVoice = await guild.channels.create({
+                name: 'Werwolf',
+                type: ChannelType.GuildVoice,
+                parent: createCategory.id,
+                permissionOverwrites: [
+                    {// @everyone
+                        id: process.env.GUILD_ID,
+                        deny: [
+                            PermissionsBitField.Flags.ViewChannel,
+                            PermissionsBitField.Flags.Connect
+                        ]
+                    },
+                    {// Member
+                        id: createRole.id,
+                        allow: [
+                            PermissionsBitField.Flags.ViewChannel,
+                            PermissionsBitField.Flags.Connect
+                        ]
+                    }
+                ]
+            });
+
             let row = new ActionRowBuilder()
             .addComponents(join.data)
             .addComponents(leave.data)
@@ -75,8 +97,9 @@ module.exports = {
             createChannel.send({embeds: [embed], components : [row]});
 
             mediaWriter.set('JSON', 'channels', 'category', createCategory.id);
+            mediaWriter.set('JSON', 'channels', 'voice', createVoice.id);
             mediaWriter.set('JSON', 'channels', 'main', createChannel.id);
-            mediaWriter.set('JSON', 'roles', 'member', createRole.id)
+            mediaWriter.set('JSON', 'roles', 'member', createRole.id);
             mediaWriter.set('Array', 'game', 'members', interaction.member.id);
         } catch(error) {
             console.log(error);

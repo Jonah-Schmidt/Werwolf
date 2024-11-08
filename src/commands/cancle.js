@@ -30,16 +30,21 @@ module.exports = {
             const mainChannel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(mainChannelID);
             mainChannel.delete();
             mediaWriter.remove('JSON', 'channels', 'main', null);
-            
-            const categoryID = mediaWriter.get('JSON', 'channels', 'category');
-            const category = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(categoryID);
-            category.delete();
-            mediaWriter.remove('JSON', 'channels', 'category', null);
+
+            const voiceChannelID = mediaWriter.get('JSON', 'channels', 'voice');
+            const voiceChannel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(voiceChannelID);
+            voiceChannel.delete();
+            mediaWriter.remove('JSON', 'channels', 'voice', null);
             
             const memberRoleID = mediaWriter.get('JSON', 'roles', 'member');
             const memberRole = client.guilds.cache.get(process.env.GUILD_ID).roles.cache.get(memberRoleID);
             memberRole.delete();
             mediaWriter.remove('JSON', 'roles', 'member', null);
+
+            const categoryID = mediaWriter.get('JSON', 'channels', 'category');
+            const category = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(categoryID);
+            category.delete();
+            mediaWriter.remove('JSON', 'channels', 'category', null);
         } else {
             let embed = new EmbedBuilder()
             .setTitle('Fehler!')
