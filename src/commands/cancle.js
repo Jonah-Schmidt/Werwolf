@@ -15,7 +15,7 @@ module.exports = {
             .setTitle('Das Spiel wurde abgebrochen!')
             .setColor(Colors.Green);
 
-            interaction.reply({embeds: [embed]});
+            interaction.reply({embeds: [embed], ephemeral: true});
 
             mediaWriter.set('JSON', 'game', 'owner', false);
             mediaWriter.set('JSON', 'game', 'created', false);

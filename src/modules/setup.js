@@ -69,7 +69,7 @@ module.exports = {
 
             let embed = new EmbedBuilder()
             .setTitle('Neues Spiel!')
-            .setDescription('Trit dem spiel mit dem Knopf `Beitreten` bei.')
+            .setDescription('Tritt dem spiel mit dem Knopf `Beitreten` bei.')
             .setColor(Colors.Aqua);
 
             createChannel.send({embeds: [embed], components : [row]});
@@ -77,6 +77,7 @@ module.exports = {
             mediaWriter.set('JSON', 'channels', 'category', createCategory.id);
             mediaWriter.set('JSON', 'channels', 'main', createChannel.id);
             mediaWriter.set('JSON', 'roles', 'member', createRole.id)
+            mediaWriter.set('Array', 'game', 'members', interaction.member.id);
         } catch(error) {
             console.log(error);
             interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');

@@ -15,6 +15,7 @@ module.exports = {
             return;
         };
         const members = mediaWriter.get('Array', 'game', 'members');
+        members.toString().includes
         if(members.toString().includes(interaction.user.id)) {
             interaction.reply({content: 'Du bist bereits dabei!', ephemeral: true});
         } else {
