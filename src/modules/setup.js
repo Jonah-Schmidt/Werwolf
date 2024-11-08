@@ -70,8 +70,10 @@ module.exports = {
                 permissionOverwrites: [
                     {// @everyone
                         id: process.env.GUILD_ID,
+                        allow: [
+                            PermissionsBitField.Flags.ViewChannel
+                        ],
                         deny: [
-                            PermissionsBitField.Flags.ViewChannel,
                             PermissionsBitField.Flags.Connect
                         ]
                     },
@@ -109,7 +111,7 @@ module.exports = {
                 adapterCreator: createVoice.guild.voiceAdapterCreator
             });
 
-            //mediaWriter.set('JSON', 'game', 'voice', connection);
+            mediaWriter.set('JSON', 'game', 'voice', createVoice.id);
 
             /*
             connection.on(VoiceConnectionStatus.Ready, () => {

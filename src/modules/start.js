@@ -1,8 +1,7 @@
 require('dotenv').config();
 const { Interaction } = require('discord.js');
 const mediaWriter = require('../mediaWriter.js');
-const { client, player } = require('../index.js');
-const { joinVoiceChannel, VoiceConnectionStatus } = require('@discordjs/voice');
+const { client } = require('../index.js');
 
 module.exports = {
     /**
@@ -10,49 +9,32 @@ module.exports = {
      */
     async start(interaction) {
         try {
-            mediaWriter.set('JSON', 'game', 'running', true);
-            console.log('Start!');
+            const voiceChannelID = mediaWriter.get('JSON', 'channels', 'voice');
+            const voiceChannel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(voiceChannelID);
 
-            //const track = '';
-            //await queue.addTrack(track);
+            const members = Array.from(voiceChannel.members.values());
+            const memberIDS = members.map(member => member.user.id);
 
-            //if(!queue.playing) await queue.play();
+            console.log(members);
+            if(!members.length >= 4) {
+                interaction.reply({ content: 'Es gibt nicht genug Spieler!', ephemeral: true});
+            }
 
-            //const currentTrack = queue.current;
-            //queue.skip();
+            const players = mediaWriter.get('Array', 'game', 'members');
+            var allPlayersInChannel = true;
 
-            //queue.destroy();
+            memberIDS.forEach(member => {
+                if(!players.includes(member)) {
+                    allPlayersInChannel = false
+                };
+            });
 
-            //voice.channel.join().then((connection) => {
-            //    connection.play(path.join('../audio/', 'test.m4a'));
-            //})
-
-
-
-
-            const channelid = '1268633863886995630';
-            client.channels.fetch(channelid).then(async channel => {
-                const connection = joinVoiceChannel({
-                    channelId: channelid,
-                    guildId: interaction.member.guildId,
-                    adapterCreator: channel.guild.voiceAdapterCreator
-                });
-
-                connection.on(VoiceConnectionStatus.Ready, () => {
-                    console.log('ready!');
-                });
-
-                connection.on(VoiceConnectionStatus.Destroyed, () => {
-                    console.log('Kaputt!');
-                });
-
-                player.on('idle', () => {
-                    searchAudio(client);
-                });
-
-                await searchAudio(client);
-                return connection.subscribe(player);
-            }).catch(err => {console.error(err)});
+            if(allPlayersInChannel) {
+                mediaWriter.set('JSON', 'game', 'running', true);
+                interaction.reply('Das Spiel wurde gestartet!');
+            } else {
+                interaction.reply({ content: 'Es sind nicht alle nutzer im Voice Channel!', ephemeral: true});
+            };
         } catch(error) {
             console.log(error);
             interaction.channel.send('Es ist ein Fehler aufgetreten!\n```' + error + '```');

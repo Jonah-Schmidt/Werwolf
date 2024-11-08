@@ -3,6 +3,7 @@ const { Interaction, ButtonBuilder, ButtonStyle } = require("discord.js");
 const mediaWriter = require('../mediaWriter');
 const game = require('../modules/start');
 const { createAudioPlayer, createAudioResource } = require('@discordjs/voice');
+const { client } = require('../index.js');
 
 module.exports = {
     name: 'start',
@@ -11,19 +12,16 @@ module.exports = {
      * @param { Interaction } interaction 
     */
     async execute(interaction) {   
-        if(mediaWriter.get('JSON', 'game', 'owner') == interaction.user.id) {
-            game.start(interaction);
-            interaction.reply('Das Spiel wurde gestartet!');
-
-            /*
-            const connection = mediaWriter.get('JSON', 'game', 'voice');
-            const player = createAudioPlayer();
-            const resource = createAudioResource('../audio/test.mp3');
-            player.play(resource);
-            connection.subscribe(player);
-            */
-        } else {
+        if(!mediaWriter.get('JSON', 'game', 'owner') == interaction.user.id) {
             interaction.reply({ content: 'Du hast das spiel nicht erstellt!', ephemeral: true});
+            return;
         };
+
+        if(mediaWriter.get('JSON', 'game', 'running') == true) {
+            interaction.reply({ content: 'Das spiel läuft bereits!', ephemeral: true});
+            return;
+        };
+
+        game.start(interaction);
     }
 };
