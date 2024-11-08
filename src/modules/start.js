@@ -15,26 +15,25 @@ module.exports = {
             const members = Array.from(voiceChannel.members.values());
             const memberIDS = members.map(member => member.user.id);
 
-            console.log(members);
-            if(!members.length >= 4) {
+            if(members.length >= 4) {
+                const players = mediaWriter.get('Array', 'game', 'members');
+                var allPlayersInChannel = true;
+    
+                memberIDS.forEach(member => {
+                    if(!players.includes(member)) {
+                        allPlayersInChannel = false
+                    };
+                });
+    
+                if(allPlayersInChannel) {
+                    mediaWriter.set('JSON', 'game', 'running', true);
+                    interaction.reply('Das Spiel wurde gestartet!');
+                } else {
+                    interaction.reply({ content: 'Es sind nicht alle nutzer im Voice Channel!', ephemeral: true});
+                };
+            } else {
                 interaction.reply({ content: 'Es gibt nicht genug Spieler!', ephemeral: true});
             }
-
-            const players = mediaWriter.get('Array', 'game', 'members');
-            var allPlayersInChannel = true;
-
-            memberIDS.forEach(member => {
-                if(!players.includes(member)) {
-                    allPlayersInChannel = false
-                };
-            });
-
-            if(allPlayersInChannel) {
-                mediaWriter.set('JSON', 'game', 'running', true);
-                interaction.reply('Das Spiel wurde gestartet!');
-            } else {
-                interaction.reply({ content: 'Es sind nicht alle nutzer im Voice Channel!', ephemeral: true});
-            };
         } catch(error) {
             console.log(error);
             interaction.channel.send('Es ist ein Fehler aufgetreten!\n```' + error + '```');
