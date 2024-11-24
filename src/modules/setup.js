@@ -6,6 +6,7 @@ const mediaWriter = require('../mediaWriter.js');
 const join = require('../buttons/join.js');
 const start = require('../buttons/start.js');
 const leave = require('../buttons/leave.js');
+const path = require('path');
 
 module.exports = {
     /**
@@ -110,6 +111,17 @@ module.exports = {
                 guildId: process.env.GUILD_ID,
                 adapterCreator: createVoice.guild.voiceAdapterCreator
             });
+
+            const audio = path.join(__dirname, '../audio/test.mp3');
+            const player = createAudioPlayer();
+            const resource = createAudioResource();
+
+            player.on('error', (error) => {
+                console.error(error.message);
+            });
+
+            connection.subscribe(player);
+            player.play(resource);
 
             mediaWriter.set('JSON', 'game', 'voice', createVoice.id);
 
