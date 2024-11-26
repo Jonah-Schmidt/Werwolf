@@ -137,34 +137,6 @@ module.exports = {
             player.play(resource);
             connection.subscribe(player);
             */
-
-            const members = mediaWriter.get('Array', 'game', 'members');
-            members.forEach(member => {
-                const createMemberChannel = guild.channels.create({
-                    name: member.displayname,
-                    type: ChannelType.GuildVoice,
-                    parent: createCategory.id,
-                    permissionOverwrites: [
-                        {
-                            id: member.id,
-                            allow: [
-                                PermissionsBitField.Flags.ViewChannel, 
-                                PermissionsBitField.Flags.Connect
-                            ]
-                        },
-                        {
-                            id: guild.id,
-                            deny: [
-                                PermissionsBitField.Flags.ViewChannel,
-                                PermissionsBitField.Flags.Connect
-                            ]
-                        }
-                    ]
-                });
-
-                member.voice.setChannel(createMemberChannel);
-                mediaWriter.set('Array', 'channels', 'member', createMemberChannel.id);
-            });
         } catch(error) {
             console.log(error);
             interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');

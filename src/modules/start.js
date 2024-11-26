@@ -34,6 +34,35 @@ module.exports = {
             } else {
                 interaction.reply({ content: 'Es gibt nicht genug Spieler!', ephemeral: true});
             }
+
+            
+            const activeMembers = mediaWriter.get('Array', 'game', 'members');
+            activeMembers.forEach(member => {
+                const createMemberChannel = guild.channels.create({
+                    name: member.displayname,
+                    type: ChannelType.GuildVoice,
+                    parent: createCategory.id,
+                    permissionOverwrites: [
+                        {
+                            id: member.id,
+                            allow: [
+                                PermissionsBitField.Flags.ViewChannel, 
+                                PermissionsBitField.Flags.Connect
+                            ]
+                        },
+                        {
+                            id: guild.id,
+                            deny: [
+                                PermissionsBitField.Flags.ViewChannel,
+                                PermissionsBitField.Flags.Connect
+                            ]
+                        }
+                    ]
+                });
+
+                member.voice.setChannel(createMemberChannel);
+                mediaWriter.set('Array', 'channels', 'member', createMemberChannel.id);
+            });
         } catch(error) {
             console.log(error);
             interaction.channel.send('Es ist ein Fehler aufgetreten!\n```' + error + '```');
