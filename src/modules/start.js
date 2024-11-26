@@ -9,8 +9,10 @@ module.exports = {
      */
     async start(interaction) {
         try {
+            const guild = client.guilds.cache.get(process.env.GUILD_ID)
+
             const voiceChannelID = mediaWriter.get('JSON', 'channels', 'voice');
-            const voiceChannel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(voiceChannelID);
+            const voiceChannel = guild.channels.cache.get(voiceChannelID);
 
             const members = Array.from(voiceChannel.members.values());
             const memberIDS = members.map(member => member.user.id);

@@ -114,7 +114,7 @@ module.exports = {
 
             const audio = path.join(__dirname, '../audio/test.mp3');
             const player = createAudioPlayer();
-            const resource = createAudioResource();
+            const resource = createAudioResource(audio);
 
             player.on('error', (error) => {
                 console.error(error.message);
@@ -139,7 +139,7 @@ module.exports = {
             */
         } catch(error) {
             console.log(error);
-            interaction.reply('Es ist ein Fehler aufgetreten!\n```' + error + '```');
+            interaction.channel.send('Es ist ein Fehler aufgetreten!\n```' + error + '```');
         };
     }
 };
