@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Interaction } = require('discord.js');
+const { Interaction, ChannelType, PermissionsBitField } = require('discord.js');
 const mediaWriter = require('../mediaWriter.js');
 const { client } = require('../index.js');
 
@@ -13,6 +13,9 @@ module.exports = {
 
             const voiceChannelID = mediaWriter.get('JSON', 'channels', 'voice');
             const voiceChannel = guild.channels.cache.get(voiceChannelID);
+
+            const  categoryID = mediaWriter.get('JSON', 'channels', 'category');
+            const category = guild.channels.cache.get(categoryID);
 
             const members = Array.from(voiceChannel.members.values());
             const memberIDS = members.map(member => member.user.id);
@@ -39,32 +42,35 @@ module.exports = {
 
             
             const activeMembers = mediaWriter.get('Array', 'game', 'members');
-            activeMembers.forEach(member => {
-                const createMemberChannel = guild.channels.create({
-                    name: member.displayname,
-                    type: ChannelType.GuildVoice,
-                    parent: createCategory.id,
-                    permissionOverwrites: [
-                        {
-                            id: member.id,
-                            allow: [
-                                PermissionsBitField.Flags.ViewChannel, 
-                                PermissionsBitField.Flags.Connect
-                            ]
-                        },
-                        {
-                            id: guild.id,
-                            deny: [
-                                PermissionsBitField.Flags.ViewChannel,
-                                PermissionsBitField.Flags.Connect
-                            ]
-                        }
-                    ]
-                });
 
-                member.voice.setChannel(createMemberChannel);
-                mediaWriter.set('Array', 'channels', 'member', createMemberChannel.id);
-            });
+            console.log(activeMembers);
+
+            // activeMembers.forEach(member => {
+            //     const createMemberChannel = guild.channels.create({
+            //         name: member.displayname,
+            //         type: ChannelType.GuildText,
+            //         parent: category.id,
+            //         permissionOverwrites: [
+            //             {
+            //                 id: member.id,
+            //                 allow: [
+            //                     PermissionsBitField.Flags.ViewChannel, 
+            //                     PermissionsBitField.Flags.Connect
+            //                 ]
+            //             },
+            //             {
+            //                 id: guild.id,
+            //                 deny: [
+            //                     PermissionsBitField.Flags.ViewChannel,
+            //                     PermissionsBitField.Flags.Connect
+            //                 ]
+            //             }
+            //         ]
+            //     });
+
+            //     console.log(member);
+            //     mediaWriter.set('Array', 'channels', 'member', createMemberChannel.id);
+            // });
         } catch(error) {
             console.log(error);
             interaction.channel.send('Es ist ein Fehler aufgetreten!\n```' + error + '```');
