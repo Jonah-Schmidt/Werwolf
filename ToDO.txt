@@ -1,0 +1,11 @@
+1. Kanäle:
+- Pro Spieler einen Kanal (Sprachkanal)
+- Werwolf (Sprachkanal)
+- Volksversammlung (Sprachkanal)
+- Marktplatz (Textkanal)
+
+2. Spielanfang
+- Rollen zuweisen
+- Alle spieler in den Versammlungschannel dann in die einzelkanäle
+- Spieleranzahlen (VC)
+- Amor erwacht - wält - DM Verliebte
